@@ -247,4 +247,9 @@ class Shopware6Storage implements StorageInterface
 
         throw new Exception('No Shopware XML Adapter found for configuration with tag: ' . $xml->getName());
     }
+
+    public function getContentFileTemplate(): string
+    {
+        return '';
+    }
 }

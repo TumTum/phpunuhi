@@ -3,6 +3,7 @@
 namespace PHPUnuhi\Tests\Components\Configuration\Services;
 
 use PHPUnit\Framework\TestCase;
+use PHPUnuhi\Configuration\Services\CommandPrompt;
 use PHPUnuhi\Configuration\Services\LocalesLoader;
 use PHPUnuhi\Exceptions\ConfigurationException;
 use PHPUnuhi\Tests\Utils\Traits\XmlLoaderTrait;
@@ -28,8 +29,9 @@ class LocalesLoaderTest extends TestCase
     protected function setUp(): void
     {
         $this->existingLocaleFile = __DIR__ . '/tmp_locale_file.json';
+        $commandPrompt = $this->createMock(CommandPrompt::class);
 
-        $this->loader = new LocalesLoader();
+        $this->loader = new LocalesLoader($commandPrompt);
     }
 
     /**

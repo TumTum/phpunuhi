@@ -5,6 +5,7 @@ namespace PHPUnuhi\Configuration;
 use Exception;
 use PHPUnuhi\Bundles\Storage\StorageFactory;
 use PHPUnuhi\Components\Filter\FilterHandler;
+use PHPUnuhi\Configuration\Services\CommandPrompt;
 use PHPUnuhi\Configuration\Services\ConfigurationValidator;
 use PHPUnuhi\Configuration\Services\CoverageLoader;
 use PHPUnuhi\Configuration\Services\FilterLoader;
@@ -25,6 +26,7 @@ use PHPUnuhi\Models\Translation\TranslationSet;
 use PHPUnuhi\Services\Loaders\Xml\XmlLoaderInterface;
 use PHPUnuhi\Traits\XmlTrait;
 use SimpleXMLElement;
+use Symfony\Component\Console\Style\SymfonyStyle;
 
 class ConfigurationLoader
 {
@@ -86,17 +88,16 @@ class ConfigurationLoader
      */
     private $localesPlaceholderProcessor;
 
-
     /**
      * @param XmlLoaderInterface $xmlLoader
      */
-    public function __construct(XmlLoaderInterface $xmlLoader)
+    public function __construct(XmlLoaderInterface $xmlLoader, SymfonyStyle $style)
     {
         $this->xmlLoader = $xmlLoader;
 
         $this->filterHandler = new FilterHandler();
         $this->configValidator = new ConfigurationValidator();
-        $this->localesLoader = new LocalesLoader();
+        $this->localesLoader = new LocalesLoader(new CommandPrompt($style));
         $this->rulesLoader = new RulesLoader();
         $this->styleLoader = new StyleLoader();
         $this->filterLoader = new FilterLoader();

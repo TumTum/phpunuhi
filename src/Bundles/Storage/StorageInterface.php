@@ -72,4 +72,11 @@ interface StorageInterface
      * @return StorageSaveResult
      */
     public function saveTranslationLocale(Locale $locale, string $filename): StorageSaveResult;
+
+    /**
+     * Get the content file template to create automate files.
+     *
+     * @return string The content file template.
+     */
+    public function getContentFileTemplate(): string;
 }

@@ -18,13 +18,18 @@ class LocalesLoader
      */
     private $placholderProcessor;
 
+    /**
+     * @var AutoCreateTranslationFile
+     */
+    private $autoCreateTranslationFile;
 
     /**
      *
      */
-    public function __construct()
+    public function __construct(CommandPrompt $prompt)
     {
         $this->placholderProcessor = new LocalesPlaceholderProcessor();
+        $this->autoCreateTranslationFile = new AutoCreateTranslationFile($prompt);
     }
 
 
@@ -60,8 +65,13 @@ class LocalesLoader
                 $configFilename
             );
 
+
             $foundLocales[] = new Locale($localeName, $isBase, $localeFile, $iniSection);
         }
+
+        $foundLocales = array_filter($foundLocales, function (Locale $locale): bool {
+            return $this->autoCreateTranslationFile->ensureExists($locale);
+        });
 
         # check if we have 2 base locales, and throw an exception if so
         $baseLocales = array_filter($foundLocales, function (Locale $locale): bool {

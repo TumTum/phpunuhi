@@ -53,4 +53,9 @@ class FakeEmptyDelimiterStorage implements StorageInterface
     {
         return new StorageSaveResult(0, 0);
     }
+
+    public function getContentFileTemplate(): string
+    {
+        return '';
+    }
 }
